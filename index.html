@@ -1,0 +1,451 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>20-10 — Dành tặng em</title>
+<style>
+  :root{
+    --bg1:#fff0f6;
+    --bg2:#ffeef8;
+    --accent:#ff4d6d;
+    --accent2:#ff99b7;
+    --text:#3a2b2b;
+    --card:#ffffffcc;
+    --glass: rgba(255,255,255,0.55);
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0;
+    font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    background: radial-gradient(circle at 10% 20%, var(--bg2), var(--bg1) 30%);
+    color:var(--text);
+    min-height:100vh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:20px;
+  }
+  .card{
+    width:100%;
+    max-width:980px;
+    background: linear-gradient(180deg, rgba(255,255,255,0.85), rgba(255,255,255,0.75));
+    border-radius:18px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.12);
+    overflow:hidden;
+    display:grid;
+    grid-template-columns: 1fr 420px;
+    gap:0;
+    position:relative;
+  }
+  /* mobile */
+  @media (max-width:860px){
+    .card{grid-template-columns:1fr; max-width:680px}
+    .side{order:2}
+  }
+
+  .left{
+    padding:36px;
+    display:flex;
+    flex-direction:column;
+    gap:18px;
+    align-items:flex-start;
+    justify-content:center;
+    position:relative;
+    min-height:420px;
+    background:
+      radial-gradient(600px 200px at 10% 10%, rgba(255,77,109,0.06), transparent 10%),
+      radial-gradient(600px 200px at 90% 90%, rgba(255,153,183,0.04), transparent 10%);
+  }
+
+  .logo{
+    display:flex;
+    gap:10px;
+    align-items:center;
+  }
+  .logo svg{width:46px;height:46px}
+  h1{
+    margin:0;
+    font-size:28px;
+    letter-spacing:0.3px;
+  }
+  .sub{
+    font-size:14px;
+    color:#6e5056;
+  }
+
+  .message{
+    font-size:20px;
+    line-height:1.4;
+    margin-top:6px;
+  }
+  .typed{
+    font-weight:700;
+    color:var(--accent);
+  }
+
+  .photo{
+    width:100%;
+    max-width:320px;
+    border-radius:14px;
+    overflow:hidden;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.12);
+    border:6px solid rgba(255,255,255,0.6);
+  }
+  .photo img{display:block; width:100%; height:auto}
+
+  .cta{
+    margin-top:8px;
+    display:flex;
+    gap:12px;
+    flex-wrap:wrap;
+  }
+  .btn{
+    padding:10px 16px;
+    border-radius:10px;
+    border:0;
+    cursor:pointer;
+    font-weight:600;
+    box-shadow:0 6px 18px rgba(255,77,109,0.12);
+  }
+  .btn-primary{
+    background:linear-gradient(90deg,var(--accent),var(--accent2));
+    color:white;
+  }
+  .btn-ghost{
+    background:transparent;
+    border:2px solid rgba(255,77,109,0.12);
+    color:var(--accent);
+  }
+
+  .side{
+    padding:22px;
+    background: linear-gradient(180deg, rgba(255,255,255,0.85), rgba(255,248,250,0.9));
+    display:flex;
+    flex-direction:column;
+    gap:14px;
+    align-items:center;
+    justify-content:center;
+    min-height:420px;
+  }
+
+  .heart{
+    width:160px;
+    height:160px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    transform-origin:center;
+    animation: beat 1.1s infinite;
+  }
+  @keyframes beat{
+    0%{transform:scale(1)}
+    30%{transform:scale(1.12)}
+    60%{transform:scale(0.98)}
+    100%{transform:scale(1)}
+  }
+
+  .note{
+    background:var(--card);
+    padding:14px;
+    border-radius:12px;
+    text-align:center;
+    box-shadow:0 8px 24px rgba(0,0,0,0.06);
+  }
+  .note h3{margin:6px 0 0 0}
+  .note p{margin:8px 0 0 0; color:#6e5056}
+
+  footer{
+    position:absolute;
+    bottom:12px;
+    left:18px;
+    right:18px;
+    display:flex;
+    justify-content:space-between;
+    font-size:13px;
+    color:#7a5a60;
+    align-items:center;
+  }
+
+  /* confetti canvas fill */
+  #confetti{
+    position:absolute;
+    inset:0;
+    pointer-events:none;
+    z-index:50;
+  }
+
+  /* small controls */
+  .controls{
+    display:flex;
+    gap:8px;
+    align-items:center;
+    margin-top:6px;
+    flex-wrap:wrap;
+  }
+  input[type="text"], input[type="url"]{
+    padding:8px 10px;
+    border-radius:8px;
+    border:1px solid rgba(0,0,0,0.08);
+    min-width:160px;
+  }
+  label{font-size:13px; color:#6e5056}
+  .small{font-size:13px; color:#6e5056}
+
+  /* accessibility focus */
+  .btn:focus, input:focus{outline:3px solid rgba(255,77,109,0.12); outline-offset:2px}
+
+</style>
+</head>
+<body>
+<canvas id="confetti"></canvas>
+<div class="card" role="main" aria-label="Thiệp 20 tháng 10">
+  <section class="left" aria-labelledby="title">
+    <div class="logo" aria-hidden="true">
+      <!-- small heart logo -->
+      <svg viewBox="0 0 32 32" aria-hidden="true">
+        <defs>
+          <linearGradient id="g" x1="0" x2="1"><stop offset="0" stop-color="#ff5a6b"/><stop offset="1" stop-color="#ff99b7"/></linearGradient>
+        </defs>
+        <path d="M16 28s12-7.6 12-15.6C28 6.6 22.4 3 19 5.8 16 8 16 12 16 12s0-4  -3-6.2C9.6 3 4 6.6 4 12.4 4 20.4 16 28 16 28z" fill="url(#g)"></path>
+      </svg>
+      <div>
+        <div id="title"><h1>Chúc mừng 20/10 — Dành tặng em</h1></div>
+        <div class="sub">Món quà nhỏ từ người luôn nghĩ về em 💌</div>
+      </div>
+    </div>
+
+    <div class="message" id="message">
+      <!-- message typed animation -->
+      <span class="small">Gửi</span> <span class="typed" id="toName">Em yêu</span>,
+      <div style="height:8px"></div>
+      <span id="typedText">...</span>
+    </div>
+
+    <div class="controls" aria-hidden="false">
+      <!-- TÙY CHỈNH: thay tên, ảnh, thông điệp -->
+      <label>
+        <span class="small">Tên người nhận</span><br>
+        <input type="text" id="inputName" placeholder="Ghi tên (ví dụ: Linh)" value="Em yêu">
+      </label>
+
+      <label>
+        <span class="small">Ảnh (URL)</span><br>
+        <input type="url" id="inputPhoto" placeholder="Đường dẫn ảnh (bỏ trống dùng mặc định)">
+      </label>
+
+      <button class="btn btn-ghost" id="btnUpdate">Cập nhật</button>
+    </div>
+
+    <div class="cta" role="group" aria-label="Các hành động">
+      <button class="btn btn-primary" id="revealBtn">Mở quà ✨</button>
+      <button class="btn btn-ghost" id="playBtn">Gửi lời yêu (typing)</button>
+      <button class="btn btn-ghost" id="confettiBtn">Confetti 🎉</button>
+    </div>
+
+    <div style="margin-top:10px; display:flex; gap:10px; align-items:center;">
+      <div class="photo" id="photoWrap" aria-hidden="true">
+        <img id="photo" src="" alt="Ảnh kỉ niệm">
+      </div>
+      <div class="small" style="max-width:48%">
+        <div><strong>Kéo xuống</strong> hoặc bấm "Mở quà" để xem thông điệp đặc biệt.</div>
+      </div>
+    </div>
+
+    <footer>
+      <div>20 Tháng 10 — Dành cho em</div>
+      <div class="small">💕</div>
+    </footer>
+  </section>
+
+  <aside class="side" aria-label="Biểu tượng trái tim">
+    <div class="heart" role="img" aria-label="Trái tim đang đập">
+      <!-- big heart SVG -->
+      <svg viewBox="0 0 200 200" width="160" height="160" aria-hidden="true">
+        <defs>
+          <linearGradient id="hGrad" x1="0" x2="1">
+            <stop offset="0" stop-color="#ff6a7a"></stop>
+            <stop offset="1" stop-color="#ffb0c2"></stop>
+          </linearGradient>
+        </defs>
+        <path d="M100 170C100 170 20 120 28 68C36 28 80 34 100 64C120 34 164 28 172 68C180 120 100 170 100 170Z" fill="url(#hGrad)"/>
+      </svg>
+    </div>
+
+    <div class="note" id="surpriseNote" aria-live="polite">
+      <h3 id="noteTitle">Món quà nhỏ</h3>
+      <p id="noteText">Chúc em luôn xinh, hạnh phúc và được yêu thương mỗi ngày. Nhấn "Mở quà" để xem tiếp nhé.</p>
+    </div>
+
+    <div class="small">Bạn có thể tùy chỉnh tên và ảnh, sau đó bấm Cập nhật.</div>
+  </aside>
+</div>
+
+<script>
+/* ======= TÙY CHỈNH NỘI DUNG MẶC ĐỊNH =======
+- Thay đổi 3 biến bên dưới để sửa thông điệp mặc định,
+  hoặc dùng form trên trang để thay nhanh.
+*/
+const DEFAULT_NAME = "Em yêu";
+const DEFAULT_PHOTO = ""; // nếu rỗng sẽ dùng ảnh mặc định dataURL
+const DEFAULT_MESSAGE = "Chúc mừng 20/10! Cảm ơn em vì đã luôn ở bên, vì nụ cười của em làm ngày mình sáng hơn. Mình yêu em nhiều lắm 💖";
+
+/* ======== không cần chỉnh tiếp ======= */
+const toNameEl = document.getElementById('toName');
+const typedTextEl = document.getElementById('typedText');
+const inputName = document.getElementById('inputName');
+const inputPhoto = document.getElementById('inputPhoto');
+const photo = document.getElementById('photo');
+const btnUpdate = document.getElementById('btnUpdate');
+const playBtn = document.getElementById('playBtn');
+const revealBtn = document.getElementById('revealBtn');
+const confettiBtn = document.getElementById('confettiBtn');
+const noteTitle = document.getElementById('noteTitle');
+const noteText = document.getElementById('noteText');
+
+let curName = DEFAULT_NAME;
+let curPhoto = DEFAULT_PHOTO;
+let curMessage = DEFAULT_MESSAGE;
+
+inputName.value = curName;
+
+// default embedded placeholder image (soft heart background) as data URL
+const placeholder = 'data:image/svg+xml;utf8,' + encodeURIComponent(
+  `<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="800">
+    <rect width="100%" height="100%" fill="#fff3f6"/>
+    <g transform="translate(600,360)">
+      <defs><linearGradient id="g1"><stop offset="0" stop-color="#ff6a7a"/><stop offset="1" stop-color="#ffb0c2"/></linearGradient></defs>
+      <path d="M0 160 C-120 90 -220 40 -220 -20 C-220 -96 -150 -132 -90 -100 C-60 -82 -40 -40 0 -10 C40 -40 60 -82 90 -100 C150 -132 220 -96 220 -20 C220 40 120 90 0 160 Z" fill="url(#g1)"/>
+    </g>
+  </svg>`
+);
+
+function setPhoto(url){
+  if(!url) photo.src = placeholder;
+  else photo.src = url;
+}
+
+/* typing effect (simple) */
+function typeText(element, text, speed=30, cb){
+  element.textContent = "";
+  let i = 0;
+  const t = setInterval(()=>{
+    element.textContent += text.charAt(i);
+    i++;
+    if(i >= text.length){ clearInterval(t); if(cb) cb(); }
+  }, speed);
+  return t;
+}
+
+/* reveal surprise: change note content & animate heart scale briefly */
+function reveal(){
+  noteTitle.textContent = "Mở quà rồi nè 🎁";
+  noteText.textContent = `Gửi ${curName}: ${curMessage}`;
+  // flash heart
+  const heart = document.querySelector('.heart');
+  heart.animate([{transform:'scale(1)'},{transform:'scale(1.15)'},{transform:'scale(1)'}], {duration:700, easing:'ease-out'});
+  // auto confetti
+  doConfetti(120);
+}
+
+/* confetti simple canvas implementation */
+const canvas = document.getElementById('confetti');
+const ctx = canvas.getContext('2d');
+let confettiPieces = [];
+
+function resizeCanvas(){
+  canvas.width = innerWidth;
+  canvas.height = innerHeight;
+}
+addEventListener('resize', resizeCanvas);
+resizeCanvas();
+
+function rand(min,max){ return Math.random()*(max-min)+min; }
+
+function spawnConfetti(amount=60){
+  for(let i=0;i<amount;i++){
+    confettiPieces.push({
+      x: rand(0, canvas.width),
+      y: rand(-canvas.height*0.2, canvas.height),
+      r: rand(6,12),
+      d: rand(10,30),
+      color: ['#ff5a6b','#ffb0c2','#ffd1e0','#fff2f6'][Math.floor(rand(0,4))],
+      tilt: rand(-10,10),
+      tiltSpeed: rand(0.02,0.12),
+      speedY: rand(1,5),
+      speedX: rand(-1.5,1.5)
+    });
+  }
+}
+
+let confettiRunning = false;
+function doConfetti(amount=80, duration=3000){
+  spawnConfetti(amount);
+  confettiRunning = true;
+  setTimeout(()=>{ confettiRunning = false; }, duration);
+}
+
+/* draw loop */
+function update(){
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  if(confettiPieces.length){
+    for(let i=confettiPieces.length-1;i>=0;i--){
+      const p = confettiPieces[i];
+      p.y += p.speedY;
+      p.x += p.speedX;
+      p.tilt += p.tiltSpeed;
+      // draw rect as tilted confetti
+      ctx.save();
+      ctx.translate(p.x, p.y);
+      ctx.rotate(p.tilt*Math.PI/180);
+      ctx.fillStyle = p.color;
+      ctx.fillRect(-p.r/2, -p.r/2, p.r, p.r*0.6);
+      ctx.restore();
+      // remove if off-screen
+      if(p.y > canvas.height + 40) confettiPieces.splice(i,1);
+    }
+  }
+  requestAnimationFrame(update);
+}
+update();
+
+/* events */
+btnUpdate.addEventListener('click', ()=>{
+  const n = inputName.value.trim() || DEFAULT_NAME;
+  const p = inputPhoto.value.trim();
+  curName = n;
+  curPhoto = p;
+  toNameEl.textContent = curName;
+  setPhoto(curPhoto);
+});
+
+playBtn.addEventListener('click', ()=>{
+  typedTextEl.textContent = "";
+  typeText(typedTextEl, curMessage, 30);
+});
+
+revealBtn.addEventListener('click', ()=>{
+  reveal();
+});
+
+confettiBtn.addEventListener('click', ()=>{ doConfetti(80,2500); });
+
+/* initial load */
+(function init(){
+  curName = inputName.value || DEFAULT_NAME;
+  toNameEl.textContent = curName;
+  curPhoto = DEFAULT_PHOTO;
+  setPhoto(curPhoto);
+  typedTextEl.textContent = "Nhấn 'Gửi lời yêu' để hiện thông điệp...";
+
+  // small friendly accessibility: press Enter in inputName to update
+  inputName.addEventListener('keydown', (e)=>{ if(e.key === 'Enter'){ btnUpdate.click(); }});
+})();
+
+/* small easter: press 's' key to open surprise */
+addEventListener('keydown', (e)=>{
+  if(e.key.toLowerCase() === 's'){ reveal(); }
+});
+</script>
+</body>
+</html>
