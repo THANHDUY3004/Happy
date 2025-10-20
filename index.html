@@ -104,6 +104,24 @@
     pointer-events:none;
     z-index:50;
   }
+  /* Nút bật/tắt nhạc */
+  #music-btn {
+    position: fixed;
+    bottom: 16px;
+    right: 16px;
+    z-index: 100;
+    background: var(--accent);
+    border: none;
+    color: white;
+    font-size: 22px;
+    border-radius: 50%;
+    width: 52px;
+    height: 52px;
+    cursor: pointer;
+    box-shadow: 0 6px 20px rgba(255,77,109,0.4);
+    transition: transform 0.2s;
+  }
+  #music-btn:hover {transform: scale(1.1);}
 </style>
 </head>
 <body>
@@ -141,23 +159,22 @@
   </aside>
 </div>
 
+<!-- Nút bật/tắt nhạc -->
+<button id="music-btn">🎵</button>
+
+<!-- Nhạc nền -->
+<audio id="bg-music" loop preload="auto">
+  <source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_1d22f2baf0.mp3?filename=romantic-piano-110899.mp3" type="audio/mpeg">
+</audio>
+
 <script>
-/* ============= Cấu hình cơ bản ============= */
+/* ============= Cấu hình ============= */
 const NAME = "Duyên";
 const MESSAGE = "Chúc em 20/10 thật vui vẻ và ngập tràn yêu thương! Cảm ơn em vì đã đến, làm ngày tháng của anh trở nên tươi đẹp hơn. Anh thương Duyên nhiều lắm 💕";
-const PHOTO_URL = ""; // có thể thay bằng đường dẫn ảnh riêng
+const PHOTO_URL = "https://drive.google.com/uc?export=view&id=1ytMI0zk5sBMtVPM2qVmlbYCKR2zxlq3n";
 
 /* ============= Hiển thị ảnh ============= */
-const placeholder = 'data:image/svg+xml;utf8,' + encodeURIComponent(
-  `<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="800">
-    <rect width="100%" height="100%" fill="#fff3f6"/>
-    <g transform="translate(600,360)">
-      <defs><linearGradient id="g1"><stop offset="0" stop-color="#ff6a7a"/><stop offset="1" stop-color="#ffb0c2"/></linearGradient></defs>
-      <path d="M0 160 C-120 90 -220 40 -220 -20 C-220 -96 -150 -132 -90 -100 C-60 -82 -40 -40 0 -10 C40 -40 60 -82 90 -100 C150 -132 220 -96 220 -20 C220 40 120 90 0 160 Z" fill="url(#g1)"/>
-    </g>
-  </svg>`
-);
-document.getElementById("photo").src = PHOTO_URL || placeholder;
+document.getElementById("photo").src = PHOTO_URL;
 
 /* ============= Gõ từng chữ ============= */
 function typeText(el, text, speed=30, callback){
@@ -176,7 +193,6 @@ function typeText(el, text, speed=30, callback){
 /* ============= Hiệu ứng mở quà ============= */
 const noteTitle = document.getElementById('noteTitle');
 const noteText = document.getElementById('noteText');
-
 function reveal(){
   noteTitle.textContent = "Gửi " + NAME + " 💖";
   noteText.textContent = MESSAGE;
@@ -190,13 +206,9 @@ function reveal(){
 const canvas = document.getElementById('confetti');
 const ctx = canvas.getContext('2d');
 let confettiPieces = [];
-function resizeCanvas(){
-  canvas.width = innerWidth;
-  canvas.height = innerHeight;
-}
+function resizeCanvas(){ canvas.width = innerWidth; canvas.height = innerHeight; }
 addEventListener('resize', resizeCanvas);
 resizeCanvas();
-
 function rand(min,max){ return Math.random()*(max-min)+min; }
 function spawnConfetti(amount){
   for(let i=0;i<amount;i++){
@@ -204,7 +216,6 @@ function spawnConfetti(amount){
       x: rand(0, canvas.width),
       y: rand(-canvas.height*0.2, canvas.height),
       r: rand(6,12),
-      d: rand(10,30),
       color: ['#ff5a6b','#ffb0c2','#ffd1e0','#fff2f6'][Math.floor(rand(0,4))],
       tilt: rand(-10,10),
       tiltSpeed: rand(0.02,0.12),
@@ -214,7 +225,6 @@ function spawnConfetti(amount){
   }
 }
 function doConfetti(amount=80){ spawnConfetti(amount); }
-
 function update(){
   ctx.clearRect(0,0,canvas.width,canvas.height);
   for(let i=confettiPieces.length-1;i>=0;i--){
@@ -234,11 +244,30 @@ function update(){
 }
 update();
 
-/* ============= Chạy tự động ============= */
+/* ============= Nhạc nền ============= */
+const music = document.getElementById('bg-music');
+const musicBtn = document.getElementById('music-btn');
+let playing = false;
+
+function toggleMusic(){
+  if(playing){
+    music.pause();
+    musicBtn.textContent = "🔇";
+  }else{
+    music.play();
+    musicBtn.textContent = "🎵";
+  }
+  playing = !playing;
+}
+musicBtn.addEventListener('click', toggleMusic);
+
+/* Auto play khi load */
 window.addEventListener('load', ()=>{
-  typeText(document.getElementById('typedText'), MESSAGE, 30, ()=>{});
+  typeText(document.getElementById('typedText'), MESSAGE, 30);
   reveal();
   setInterval(reveal, 5000);
+  // Thử tự động phát nhạc (chặn bởi trình duyệt nên cần click đầu tiên)
+  music.play().then(()=>{playing=true;}).catch(()=>{});
 });
 </script>
 </body>
