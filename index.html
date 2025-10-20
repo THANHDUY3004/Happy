@@ -26,57 +26,28 @@
   }
   .card{
     width:100%;
-    max-width:900px;
+    max-width:700px;
     background: rgba(255,255,255,0.85);
     border-radius:18px;
     box-shadow: 0 10px 40px rgba(0,0,0,0.12);
     overflow:hidden;
-    display:grid;
-    grid-template-columns: 1fr 400px;
+    text-align:center;
     position:relative;
+    padding:40px 30px;
   }
-  @media (max-width:800px){
-    .card{grid-template-columns:1fr;}
-  }
-  .left{
-    padding:36px;
-    display:flex;
-    flex-direction:column;
-    justify-content:center;
-    background:
-      radial-gradient(600px 200px at 10% 10%, rgba(255,77,109,0.06), transparent 10%),
-      radial-gradient(600px 200px at 90% 90%, rgba(255,153,183,0.04), transparent 10%);
-  }
-  h1{margin:0;font-size:28px;color:var(--accent);}
-  .sub{font-size:15px;margin-bottom:14px;color:#6e5056;}
-  .message{font-size:20px;line-height:1.4;}
+  h1{margin:0;font-size:30px;color:var(--accent);}
+  .sub{font-size:15px;margin-bottom:20px;color:#6e5056;}
+  .message{font-size:20px;line-height:1.5;}
   .typed{color:var(--accent);font-weight:700;}
-  .photo{
-    margin-top:20px;
-    width:100%;
-    max-width:300px;
-    border-radius:14px;
-    overflow:hidden;
-    box-shadow:0 8px 30px rgba(0,0,0,0.12);
-    border:6px solid rgba(255,255,255,0.6);
-  }
-  .photo img{display:block;width:100%;height:auto}
   footer{
-    margin-top:24px;
-    font-size:13px;
+    margin-top:28px;
+    font-size:14px;
     color:#7a5a60;
   }
-  .side{
-    padding:22px;
-    background: linear-gradient(180deg, rgba(255,255,255,0.85), rgba(255,248,250,0.9));
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    justify-content:center;
-  }
   .heart{
-    width:160px;
-    height:160px;
+    margin:30px auto;
+    width:120px;
+    height:120px;
     display:flex;
     align-items:center;
     justify-content:center;
@@ -92,9 +63,9 @@
     background:rgba(255,255,255,0.75);
     padding:16px;
     border-radius:12px;
-    text-align:center;
     box-shadow:0 8px 24px rgba(0,0,0,0.06);
     max-width:90%;
+    margin:0 auto;
   }
   .note h3{margin:6px 0 0 0;}
   .note p{margin:8px 0 0 0;color:#6e5056;}
@@ -104,77 +75,42 @@
     pointer-events:none;
     z-index:50;
   }
-  /* Nút bật/tắt nhạc */
-  #music-btn {
-    position: fixed;
-    bottom: 16px;
-    right: 16px;
-    z-index: 100;
-    background: var(--accent);
-    border: none;
-    color: white;
-    font-size: 22px;
-    border-radius: 50%;
-    width: 52px;
-    height: 52px;
-    cursor: pointer;
-    box-shadow: 0 6px 20px rgba(255,77,109,0.4);
-    transition: transform 0.2s;
-  }
-  #music-btn:hover {transform: scale(1.1);}
 </style>
 </head>
 <body>
 <canvas id="confetti"></canvas>
 <div class="card">
-  <section class="left">
-    <h1>Chúc mừng 20/10 — Gửi Duyên 💖</h1>
-    <div class="sub">Món quà nhỏ từ người luôn nghĩ về em</div>
-    <div class="message">
-      Gửi <span class="typed">Duyên</span>,<br>
-      <span id="typedText"></span>
-    </div>
-    <div class="photo">
-      <img id="photo" src="" alt="Ảnh kỉ niệm">
-    </div>
-    <footer>20 tháng 10 — Dành cho Duyên</footer>
-  </section>
+  <h1>Chúc mừng 20/10 — Gửi Duyên 💖</h1>
+  <div class="sub">Một lời chúc nhỏ dành riêng cho em</div>
+  <div class="message">
+    Gửi <span class="typed">Duyên</span>,<br>
+    <span id="typedText"></span>
+  </div>
 
-  <aside class="side">
-    <div class="heart">
-      <svg viewBox="0 0 200 200" width="160" height="160">
-        <defs>
-          <linearGradient id="hGrad" x1="0" x2="1">
-            <stop offset="0" stop-color="#ff6a7a"></stop>
-            <stop offset="1" stop-color="#ffb0c2"></stop>
-          </linearGradient>
-        </defs>
-        <path d="M100 170C100 170 20 120 28 68C36 28 80 34 100 64C120 34 164 28 172 68C180 120 100 170 100 170Z" fill="url(#hGrad)"/>
-      </svg>
-    </div>
-    <div class="note" id="note">
-      <h3 id="noteTitle">Món quà nhỏ 🎁</h3>
-      <p id="noteText">Chúc Duyên luôn xinh đẹp, rạng rỡ và hạnh phúc mỗi ngày ❤️</p>
-    </div>
-  </aside>
+  <div class="heart">
+    <svg viewBox="0 0 200 200" width="120" height="120">
+      <defs>
+        <linearGradient id="hGrad" x1="0" x2="1">
+          <stop offset="0" stop-color="#ff6a7a"></stop>
+          <stop offset="1" stop-color="#ffb0c2"></stop>
+        </linearGradient>
+      </defs>
+      <path d="M100 170C100 170 20 120 28 68C36 28 80 34 100 64C120 34 164 28 172 68C180 120 100 170 100 170Z" fill="url(#hGrad)"/>
+    </svg>
+  </div>
+
+  <div class="note" id="note">
+    <h3 id="noteTitle">Món quà nhỏ 🎁</h3>
+    <p id="noteText">Chúc Duyên luôn xinh đẹp, rạng rỡ và hạnh phúc mỗi ngày ❤️</p>
+  </div>
+
+  <footer>20 tháng 10 — Dành cho Duyên</footer>
 </div>
-
-<!-- Nút bật/tắt nhạc -->
-<button id="music-btn">🎵</button>
-
-<!-- Nhạc nền -->
-<audio id="bg-music" loop preload="auto">
-  <source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_1d22f2baf0.mp3?filename=romantic-piano-110899.mp3" type="audio/mpeg">
-</audio>
 
 <script>
 /* ============= Cấu hình ============= */
 const NAME = "Duyên";
 const MESSAGE = "Chúc em 20/10 thật vui vẻ và ngập tràn yêu thương! Cảm ơn em vì đã đến, làm ngày tháng của anh trở nên tươi đẹp hơn. Anh thương Duyên nhiều lắm 💕";
-const PHOTO_URL = "https://drive.google.com/uc?export=view&id=1ytMI0zk5sBMtVPM2qVmlbYCKR2zxlq3n";
-
-/* ============= Hiển thị ảnh ============= */
-document.getElementById("photo").src = PHOTO_URL;
 
 /* ============= Gõ từng chữ ============= */
 function typeText(el, text, speed=30, callback){
@@ -196,7 +132,7 @@ const noteText = document.getElementById('noteText');
 function reveal(){
   noteTitle.textContent = "Gửi " + NAME + " 💖";
   noteText.textContent = MESSAGE;
-  doConfetti(120);
+  doConfetti(100);
   const heart = document.querySelector('.heart');
   heart.animate([{transform:'scale(1)'},{transform:'scale(1.2)'},{transform:'scale(1)'}],
                 {duration:800, easing:'ease-out'});
@@ -244,31 +180,13 @@ function update(){
 }
 update();
 
-/* ============= Nhạc nền ============= */
-const music = document.getElementById('bg-music');
-const musicBtn = document.getElementById('music-btn');
-let playing = false;
-
-function toggleMusic(){
-  if(playing){
-    music.pause();
-    musicBtn.textContent = "🔇";
-  }else{
-    music.play();
-    musicBtn.textContent = "🎵";
-  }
-  playing = !playing;
-}
-musicBtn.addEventListener('click', toggleMusic);
-
-/* Auto play khi load */
+/* ============= Tự động chạy ============= */
 window.addEventListener('load', ()=>{
   typeText(document.getElementById('typedText'), MESSAGE, 30);
   reveal();
   setInterval(reveal, 5000);
-  // Thử tự động phát nhạc (chặn bởi trình duyệt nên cần click đầu tiên)
-  music.play().then(()=>{playing=true;}).catch(()=>{});
 });
 </script>
 </body>
 </html>
+
