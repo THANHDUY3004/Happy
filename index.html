@@ -1,187 +1,168 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="vi">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Chúc mừng 20/10 — Gửi Duyên</title>
-<style>
-  :root{
-    --bg1:#fff0f6;
-    --bg2:#ffeef8;
-    --accent:#ff4d6d;
-    --accent2:#ff99b7;
-    --text:#3a2b2b;
-  }
-  *{box-sizing:border-box}
-  body{
-    margin:0;
-    font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
-    background: radial-gradient(circle at 10% 20%, var(--bg2), var(--bg1) 30%);
-    color:var(--text);
-    min-height:100vh;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    padding:20px;
-  }
-  .card{
-    width:100%;
-    max-width:700px;
-    background: rgba(255,255,255,0.85);
-    border-radius:18px;
-    box-shadow: 0 10px 40px rgba(0,0,0,0.12);
-    overflow:hidden;
-    text-align:center;
-    position:relative;
-    padding:40px 30px;
-  }
-  h1{margin:0;font-size:30px;color:var(--accent);}
-  .sub{font-size:15px;margin-bottom:20px;color:#6e5056;}
-  .message{font-size:20px;line-height:1.5;}
-  .typed{color:var(--accent);font-weight:700;}
-  footer{
-    margin-top:28px;
-    font-size:14px;
-    color:#7a5a60;
-  }
-  .heart{
-    margin:30px auto;
-    width:120px;
-    height:120px;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    animation: beat 1.1s infinite;
-  }
-  @keyframes beat{
-    0%{transform:scale(1)}
-    30%{transform:scale(1.12)}
-    60%{transform:scale(0.98)}
-    100%{transform:scale(1)}
-  }
-  .note{
-    background:rgba(255,255,255,0.75);
-    padding:16px;
-    border-radius:12px;
-    box-shadow:0 8px 24px rgba(0,0,0,0.06);
-    max-width:90%;
-    margin:0 auto;
-  }
-  .note h3{margin:6px 0 0 0;}
-  .note p{margin:8px 0 0 0;color:#6e5056;}
-  #confetti{
-    position:absolute;
-    inset:0;
-    pointer-events:none;
-    z-index:50;
-  }
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Valentine 14-2</title>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Quicksand:wght@400;600&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            font-family: 'Quicksand', sans-serif;
+            overflow: hidden;
+        }
+
+        .font-dancing-script {
+            font-family: 'Dancing Script', cursive;
+        }
+
+        /* Hiệu ứng tiêu đề */
+        .title-animation {
+            animation: fadeInGlow 3s ease-in-out forwards;
+        }
+
+        @keyframes fadeInGlow {
+            0% {
+                opacity: 0;
+                text-shadow: 0 0 5px rgba(255,255,255,0);
+            }
+            50% {
+                opacity: 1;
+                text-shadow: 0 0 25px rgba(255,182,193,0.9);
+            }
+            100% {
+                opacity: 1;
+                text-shadow: 0 0 15px rgba(255,105,180,0.7);
+            }
+        }
+
+        /* Canvas hiệu ứng */
+        #falling-hearts-canvas {
+            position: fixed;
+            inset: 0;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        .card {
+            background-color: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+        }
+    </style>
 </head>
-<body>
-<canvas id="confetti"></canvas>
-<div class="card">
-  <h1>Chúc mừng 20/10 — Gửi Duyên 💖</h1>
-  <div class="sub">Một lời chúc nhỏ dành riêng cho em</div>
-  <div class="message">
-    Gửi <span class="typed">Duyên</span>,<br>
-    <span id="typedText"></span>
-  </div>
 
-  <div class="heart">
-    <svg viewBox="0 0 200 200" width="120" height="120">
-      <defs>
-        <linearGradient id="hGrad" x1="0" x2="1">
-          <stop offset="0" stop-color="#ff6a7a"></stop>
-          <stop offset="1" stop-color="#ffb0c2"></stop>
-        </linearGradient>
-      </defs>
-      <path d="M100 170C100 170 20 120 28 68C36 28 80 34 100 64C120 34 164 28 172 68C180 120 100 170 100 170Z" fill="url(#hGrad)"/>
-    </svg>
-  </div>
+<body class="bg-gradient-to-br from-rose-600 via-pink-600 to-purple-700 flex items-center justify-center min-h-screen text-white p-4">
 
-  <footer>20 tháng 10 — Dành cho Duyên</footer>
-</div>
+    <!-- Canvas trái tim -->
+    <canvas id="falling-hearts-canvas"></canvas>
 
-<script>
-/* ============= Cấu hình ============= */
-const NAME = "Duyên";
-const MESSAGE = "Chúc em 20/10 thật vui vẻ và ngập tràn yêu thương! Cảm ơn em vì đã đến, làm ngày tháng của anh trở nên tươi đẹp hơn. 💕";
+    <div class="card w-full max-w-lg text-center p-8 rounded-2xl shadow-2xl border border-white/20">
 
-/* ============= Gõ từng chữ ============= */
-function typeText(el, text, speed=30, callback){
-  el.textContent = "";
-  let i = 0;
-  const timer = setInterval(()=>{
-    el.textContent += text.charAt(i);
-    i++;
-    if(i >= text.length){
-      clearInterval(timer);
-      if(callback) callback();
-    }
-  }, speed);
-}
+        <!-- Tiêu đề -->
+        <h1 class="font-dancing-script text-5xl md:text-6xl text-pink-200 title-animation leading-tight">
+            Happy Valentine’s Day <br> 💖 14 • 2 💖
+        </h1>
 
-/* ============= Hiệu ứng mở quà ============= */
-const noteTitle = document.getElementById('noteTitle');
-const noteText = document.getElementById('noteText');
-function reveal(){
-  noteTitle.textContent = "Gửi " + NAME + " 💖";
-  noteText.textContent = MESSAGE;
-  doConfetti(100);
-  const heart = document.querySelector('.heart');
-  heart.animate([{transform:'scale(1)'},{transform:'scale(1.2)'},{transform:'scale(1)'}],
-                {duration:800, easing:'ease-out'});
-}
+        <!-- Phụ đề -->
+        <p class="mt-4 text-lg md:text-xl font-semibold text-pink-100">
+            Ngày của yêu thương & hạnh phúc
+        </p>
 
-/* ============= Confetti ============= */
-const canvas = document.getElementById('confetti');
-const ctx = canvas.getContext('2d');
-let confettiPieces = [];
-function resizeCanvas(){ canvas.width = innerWidth; canvas.height = innerHeight; }
-addEventListener('resize', resizeCanvas);
-resizeCanvas();
-function rand(min,max){ return Math.random()*(max-min)+min; }
-function spawnConfetti(amount){
-  for(let i=0;i<amount;i++){
-    confettiPieces.push({
-      x: rand(0, canvas.width),
-      y: rand(-canvas.height*0.2, canvas.height),
-      r: rand(6,12),
-      color: ['#ff5a6b','#ffb0c2','#ffd1e0','#fff2f6'][Math.floor(rand(0,4))],
-      tilt: rand(-10,10),
-      tiltSpeed: rand(0.02,0.12),
-      speedY: rand(1,5),
-      speedX: rand(-1.5,1.5)
-    });
-  }
-}
-function doConfetti(amount=80){ spawnConfetti(amount); }
-function update(){
-  ctx.clearRect(0,0,canvas.width,canvas.height);
-  for(let i=confettiPieces.length-1;i>=0;i--){
-    const p = confettiPieces[i];
-    p.y += p.speedY;
-    p.x += p.speedX;
-    p.tilt += p.tiltSpeed;
-    ctx.save();
-    ctx.translate(p.x, p.y);
-    ctx.rotate(p.tilt*Math.PI/180);
-    ctx.fillStyle = p.color;
-    ctx.fillRect(-p.r/2, -p.r/2, p.r, p.r*0.6);
-    ctx.restore();
-    if(p.y > canvas.height + 40) confettiPieces.splice(i,1);
-  }
-  requestAnimationFrame(update);
-}
-update();
+        <!-- Ảnh Valentine -->
+        <div class="my-8 flex justify-center">
+            <img 
+                src="happy/%231.jpg"
+                alt="Ảnh Valentine"
+                class="rounded-2xl w-64 h-64 object-cover border-4 border-pink-200 shadow-xl"
+                onerror="this.onerror=null;this.src='https://placehold.co/300x300/FF69B4/FFFFFF?text=Valentine';"
+            >
+        </div>
 
-/* ============= Tự động chạy ============= */
-window.addEventListener('load', ()=>{
-  typeText(document.getElementById('typedText'), MESSAGE, 30);
-  reveal();
-  setInterval(reveal, 5000);
-});
-</script>
+        <!-- Lời chúc -->
+        <p class="text-base md:text-lg leading-relaxed text-pink-50">
+            Valentine 14/2 là dịp để nhắc rằng yêu thương không chỉ nằm ở những món quà,
+            mà còn ở sự quan tâm, chia sẻ và những khoảnh khắc bên nhau 💕  
+            Chúc chúng ta luôn hạnh phúc, ngọt ngào và tràn đầy yêu thương ❤️
+        </p>
+    </div>
+
+    <script>
+        const canvas = document.getElementById('falling-hearts-canvas');
+        const ctx = canvas.getContext('2d');
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        resizeCanvas();
+
+        const hearts = ['❤️','💖','💘','💕'];
+        const particles = [];
+        const TOTAL = 80;
+
+        function createParticles() {
+            particles.length = 0;
+            for (let i = 0; i < TOTAL; i++) {
+                particles.push({
+                    x: Math.random() * canvas.width,
+                    y: Math.random() * canvas.height,
+                    size: Math.random() * 22 + 16,
+                    speed: Math.random() * 1.5 + 0.8,
+                    heart: hearts[Math.floor(Math.random() * hearts.length)],
+                    rotation: Math.random() * 360,
+                    spin: (Math.random() - 0.5) * 0.06
+                });
+            }
+        }
+
+        function draw() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(p => {
+                ctx.save();
+                ctx.translate(p.x, p.y);
+                ctx.rotate(p.rotation * Math.PI / 180);
+                ctx.font = `${p.size}px Arial`;
+                ctx.globalAlpha = 0.85;
+                ctx.fillText(p.heart, -p.size / 2, p.size / 2);
+                ctx.restore();
+            });
+        }
+
+        function update() {
+            particles.forEach(p => {
+                p.y += p.speed;
+                p.x += Math.sin(p.y / 60) * 0.4;
+                p.rotation += p.spin;
+
+                if (p.y > canvas.height + p.size) {
+                    p.y = -p.size;
+                    p.x = Math.random() * canvas.width;
+                }
+            });
+        }
+
+        function animate() {
+            draw();
+            update();
+            requestAnimationFrame(animate);
+        }
+
+        window.addEventListener('resize', () => {
+            resizeCanvas();
+            createParticles();
+        });
+
+        createParticles();
+        animate();
+    </script>
+
 </body>
 </html>
-
